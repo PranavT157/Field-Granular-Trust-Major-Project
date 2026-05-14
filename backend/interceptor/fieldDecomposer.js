@@ -3,7 +3,7 @@
  * Groups updates by field for efficient WMV processing
  */
 
-class FieldDecomposer {
+export default class FieldDecomposer {
   /**
    * decomposeUpdates(updates: [{ deviceId, fieldPath, value }]) → { field: [updates] }
    * Groups updates by field path
@@ -76,5 +76,3 @@ class FieldDecomposer {
     return current;
   }
 }
-
-module.exports = FieldDecomposer;

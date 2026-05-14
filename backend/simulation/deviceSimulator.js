@@ -131,4 +131,4 @@ class DeviceSimulator {
   }
 }
 
-module.exports = { Device, DeviceSimulator };
+export { Device, DeviceSimulator };

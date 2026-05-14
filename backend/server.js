@@ -3,25 +3,28 @@
  * Implements all REST endpoints for sync, trust, audit, schema, simulate
  */
 
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const TrustEngine = require('./interceptor/trustEngine');
-const WMVRunner = require('./interceptor/wmvRunner');
-const FieldDecomposer = require('./interceptor/fieldDecomposer');
-const MergeAssembler = require('./interceptor/mergeAssembler');
-const AuditLogger = require('./interceptor/auditLogger');
+import TrustEngine from './interceptor/trustEngine.js';
+import WMVRunner from './interceptor/wmvRunner.js';
+import FieldDecomposer from './interceptor/fieldDecomposer.js';
+import MergeAssembler from './interceptor/mergeAssembler.js';
+import AuditLogger from './interceptor/auditLogger.js';
 
-const MasterDb = require('./db/masterDb');
-const TrustDb = require('./db/trustDb');
+import MasterDb from './db/masterDb.js';
+import TrustDb from './db/trustDb.js';
 
-const { runScenarioNormal } = require('./simulation/scenarios/scenario_normal');
-const { runScenarioAttack } = require('./simulation/scenarios/scenario_attack');
-const { runScenarioLaundering } = require('./simulation/scenarios/scenario_laundering');
+import { runScenarioNormal } from './simulation/scenarios/scenario_normal.js';
+import { runScenarioAttack } from './simulation/scenarios/scenario_attack.js';
+import { runScenarioLaundering } from './simulation/scenarios/scenario_laundering.js';
 
-const seedData = require('./simulation/seedData');
+import seedData from './simulation/seedData.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load schema
 const schemaPath = path.join(__dirname, 'schema', 'patientRecord.schema.json');
@@ -368,4 +371,4 @@ async function start() {
 
 start().catch(console.error);
 
-module.exports = app;
+export default app;

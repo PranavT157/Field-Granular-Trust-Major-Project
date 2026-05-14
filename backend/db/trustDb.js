@@ -3,7 +3,7 @@
  * Separate from master DB to ensure persistence of reputation
  */
 
-class TrustDb {
+export default class TrustDb {
   constructor() {
     // In-memory store: { deviceId: { alpha_global, beta_global, fields: {} } }
     this.store = new Map();
@@ -50,5 +50,3 @@ class TrustDb {
     this.store.clear();
   }
 }
-
-module.exports = TrustDb;

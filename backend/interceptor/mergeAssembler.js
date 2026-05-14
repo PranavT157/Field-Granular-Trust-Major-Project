@@ -3,9 +3,9 @@
  * Accepts winning fields, rejects/holds others, assembles partial commit
  */
 
-const FieldDecomposer = require('./fieldDecomposer');
+import FieldDecomposer from './fieldDecomposer.js';
 
-class MergeAssembler {
+export default class MergeAssembler {
   /**
    * assemblePartialCommit(currentRecord, fieldDecisions, currentGoldenRecord)
    * 
@@ -48,5 +48,3 @@ class MergeAssembler {
     return result;
   }
 }
-
-module.exports = MergeAssembler;

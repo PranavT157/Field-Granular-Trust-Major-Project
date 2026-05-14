@@ -4,7 +4,7 @@
  * The 4 honest devices' correct value wins WMV
  */
 
-const { DeviceSimulator } = require('../deviceSimulator');
+import { DeviceSimulator } from '../deviceSimulator.js';
 
 async function runScenarioAttack(masterDb, trustEngine, wmvRunner, auditLogger, mergeAssembler) {
   console.log('\n========== SCENARIO: DIRECT ATTACK ==========');
@@ -112,4 +112,4 @@ async function runScenarioAttack(masterDb, trustEngine, wmvRunner, auditLogger, 
   return { stats, finalTrust };
 }
 
-module.exports = { runScenarioAttack };
+export { runScenarioAttack };
