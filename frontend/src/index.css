@@ -1,0 +1,533 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+code {
+  background: #f3f4f6;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+}
+
+/* App */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  font-size: 2.5em;
+  margin-bottom: 8px;
+}
+
+.app-header p {
+  font-size: 1.1em;
+  opacity: 0.9;
+}
+
+.connection-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 16px 20px;
+  margin: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #dc2626;
+}
+
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Dashboard */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Control Panel */
+.control-panel {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.control-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.control-group label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.control-group select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.control-status {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.round-display {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 16px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.status-badge.idle {
+  background: #6b7280;
+}
+
+.status-badge.running {
+  background: #3b82f6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.status-badge.complete {
+  background: #10b981;
+}
+
+.status-badge.error {
+  background: #ef4444;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #d1d5db;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Metrics Summary */
+.metrics-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 8px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.column {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.column h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.column h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.column p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Device Cards */
+.device-cards-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.device-trust-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.device-trust-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.device-emoji {
+  font-size: 28px;
+}
+
+.card-header h3 {
+  margin: 0;
+}
+
+.trust-bar {
+  position: relative;
+  height: 24px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.trust-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  transition: width 0.3s ease;
+}
+
+.trust-label {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.trust-counters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.counter-item {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.counter-label {
+  color: #6b7280;
+}
+
+.counter-value {
+  font-weight: 700;
+}
+
+.behavior-badge {
+  margin-top: 12px;
+}
+
+/* Sync Feed */
+.sync-feed {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feed-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px;
+  background: #f9fafb;
+}
+
+.feed-timestamp {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.feed-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.feed-field-badge {
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.feed-summary {
+  font-size: 12px;
+}
+
+/* Field Decision Table */
+.field-decision-table {
+  margin-top: 16px;
+}
+
+.field-decision-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.field-decision-table th {
+  background: #f3f4f6;
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #d1d5db;
+}
+
+.field-decision-table td {
+  padding: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.field-name {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+}
+
+/* Patient Record Viewer */
+.patient-record-viewer {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.record-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-field {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px;
+  background: #f9fafb;
+}
+
+.field-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.field-label-row label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 13px;
+}
+
+.field-value {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #667eea;
+  word-break: break-all;
+}
+
+.record-metadata {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+/* Trust Evolution Chart */
+.chart-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trust-evolution-chart h3 {
+  margin-bottom: 16px;
+}
+
+/* Comparison Table */
+.comparison-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #d1d5db;
+}
+
+.comparison-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.comparison-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.comparison-table tr:last-child {
+  background: #fef3c7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 20px;
+  }
+
+  .app-header h1 {
+    font-size: 1.8em;
+  }
+
+  .app-header p {
+    font-size: 1em;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .control-row {
+    flex-direction: column;
+  }
+
+  .device-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .sync-feed,
+  .patient-record-viewer {
+    max-height: 300px;
+  }
+}
