@@ -116,6 +116,14 @@ async function runScenarioLaundering(masterDb, trustEngine, wmvRunner, auditLogg
   console.log(`Total Sync Events: ${stats.totalSyncEvents}`);
   console.log(`Rejection Rate: ${(stats.rejectionRate * 100).toFixed(2)}%`);
   console.log(`Mean Latency: ${stats.meanLatencyMs.toFixed(2)}ms`);
+  console.log(`Overall Accuracy: ${stats.overallAccuracyPercentage}`);
+
+  console.log('\n--- Device Accuracy Metrics ---');
+  for (const [deviceId, metrics] of Object.entries(stats.deviceAccuracyMetrics)) {
+    console.log(`  ${deviceId}:`);
+    console.log(`    Correct: ${metrics.correctMeasurements}/${metrics.totalMeasurements}`);
+    console.log(`    Accuracy: ${metrics.accuracyPercentage}`);
+  }
 
   const finalTrust = trustEngine.getSnapshot();
   console.log('\n--- Device Trust Evolution ---');

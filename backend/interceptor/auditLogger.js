@@ -9,6 +9,10 @@ export default class AuditLogger {
     this.rejectedUpdatesCount = 0;
     this.falsePositivesCount = 0;
     this.syncLatencies = [];
+    
+    // Accuracy tracking
+    this.deviceAccuracy = {}; // { deviceId: { correctCount, totalCount, accuracy } }
+    this.fieldAccuracy = {}; // { fieldPath: { correctCount, totalCount, accuracy } }
   }
 
   /**
@@ -47,6 +51,7 @@ export default class AuditLogger {
   /**
    * updateCountersFromDecisions(trustEngine, fieldDecisions)
    * For each device, check if their claimed value won (isHonest = true)
+   * Also tracks accuracy metrics
    */
   updateCountersFromDecisions(trustEngine, fieldDecisions) {
     for (const decision of fieldDecisions) {
@@ -55,16 +60,108 @@ export default class AuditLogger {
       // Get lambda for this field from schema (passed separately or in decision)
       const lambda_f = decision.lambda || 0.5;
 
-      // Supporting devices were honest (their claim won)
+      // Supporting devices were honest (their claim won) - ACCURATE
       for (const deviceId of supportingDevices) {
         trustEngine.updateCounters(deviceId, fieldPath, true, lambda_f);
+        this.trackDeviceAccuracy(deviceId, true);
+        this.trackFieldAccuracy(fieldPath, true);
       }
 
-      // Rejecting devices were dishonest (their claim lost)
+      // Rejecting devices were dishonest (their claim lost) - INACCURATE
       for (const deviceId of rejectingDevices) {
         trustEngine.updateCounters(deviceId, fieldPath, false, lambda_f);
+        this.trackDeviceAccuracy(deviceId, false);
+        this.trackFieldAccuracy(fieldPath, false);
       }
     }
+  }
+
+  /**
+   * Track accuracy for each device
+   */
+  trackDeviceAccuracy(deviceId, isCorrect) {
+    if (!this.deviceAccuracy[deviceId]) {
+      this.deviceAccuracy[deviceId] = {
+        correctCount: 0,
+        totalCount: 0,
+        accuracy: 0,
+      };
+    }
+
+    this.deviceAccuracy[deviceId].totalCount += 1;
+    if (isCorrect) {
+      this.deviceAccuracy[deviceId].correctCount += 1;
+    }
+    this.deviceAccuracy[deviceId].accuracy =
+      this.deviceAccuracy[deviceId].correctCount /
+      this.deviceAccuracy[deviceId].totalCount;
+  }
+
+  /**
+   * Track accuracy for each field
+   */
+  trackFieldAccuracy(fieldPath, isCorrect) {
+    if (!this.fieldAccuracy[fieldPath]) {
+      this.fieldAccuracy[fieldPath] = {
+        correctCount: 0,
+        totalCount: 0,
+        accuracy: 0,
+      };
+    }
+
+    this.fieldAccuracy[fieldPath].totalCount += 1;
+    if (isCorrect) {
+      this.fieldAccuracy[fieldPath].correctCount += 1;
+    }
+    this.fieldAccuracy[fieldPath].accuracy =
+      this.fieldAccuracy[fieldPath].correctCount /
+      this.fieldAccuracy[fieldPath].totalCount;
+  }
+
+  /**
+   * Get accuracy metrics for all devices
+   */
+  getDeviceAccuracyMetrics() {
+    const deviceMetrics = {};
+    for (const deviceId in this.deviceAccuracy) {
+      deviceMetrics[deviceId] = {
+        correctMeasurements: this.deviceAccuracy[deviceId].correctCount,
+        totalMeasurements: this.deviceAccuracy[deviceId].totalCount,
+        accuracyPercentage: (this.deviceAccuracy[deviceId].accuracy * 100).toFixed(2) + '%',
+      };
+    }
+    return deviceMetrics;
+  }
+
+  /**
+   * Get accuracy metrics for all fields
+   */
+  getFieldAccuracyMetrics() {
+    const fieldMetrics = {};
+    for (const fieldPath in this.fieldAccuracy) {
+      fieldMetrics[fieldPath] = {
+        correctMeasurements: this.fieldAccuracy[fieldPath].correctCount,
+        totalMeasurements: this.fieldAccuracy[fieldPath].totalCount,
+        accuracyPercentage: (this.fieldAccuracy[fieldPath].accuracy * 100).toFixed(2) + '%',
+      };
+    }
+    return fieldMetrics;
+  }
+
+  /**
+   * Get overall accuracy across all measurements
+   */
+  getOverallAccuracy() {
+    let totalCorrect = 0;
+    let totalMeasurements = 0;
+
+    for (const deviceId in this.deviceAccuracy) {
+      totalCorrect += this.deviceAccuracy[deviceId].correctCount;
+      totalMeasurements += this.deviceAccuracy[deviceId].totalCount;
+    }
+
+    if (totalMeasurements === 0) return 0;
+    return ((totalCorrect / totalMeasurements) * 100).toFixed(2);
   }
 
   /**
@@ -103,6 +200,9 @@ export default class AuditLogger {
       totalRejectedUpdates,
       rejectionRate: totalUpdates > 0 ? totalRejectedUpdates / totalUpdates : 0,
       meanLatencyMs: meanLatency,
+      overallAccuracyPercentage: this.getOverallAccuracy() + '%',
+      deviceAccuracyMetrics: this.getDeviceAccuracyMetrics(),
+      fieldAccuracyMetrics: this.getFieldAccuracyMetrics(),
     };
   }
 
@@ -115,5 +215,7 @@ export default class AuditLogger {
     this.rejectedUpdatesCount = 0;
     this.falsePositivesCount = 0;
     this.syncLatencies = [];
+    this.deviceAccuracy = {};
+    this.fieldAccuracy = {};
   }
 }
