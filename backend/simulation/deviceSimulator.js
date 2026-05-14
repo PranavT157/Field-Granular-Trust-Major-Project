@@ -39,11 +39,24 @@ class Device {
         // Send honest value (ground truth)
         value = patientRecord[field];
       } else if (this.behaviorMode === 'malicious') {
-        // Always attack medication_dosage
+        // Attack ALL fields - send wrong values for everything
+        // This ensures trust score consistently degrades
         if (field === 'medication_dosage') {
-          value = 9999; // Tampered value
-        } else {
-          value = patientRecord[field];
+          value = 9999; // Tampered dosage
+        } else if (field === 'blood_pressure') {
+          value = '999/999'; // Tampered BP
+        } else if (field === 'heart_rate') {
+          value = 999; // Tampered HR
+        } else if (field === 'surgical_history') {
+          value = 'TAMPERED_HISTORY'; // Tampered history
+        } else if (field === 'attending_physician') {
+          value = 'ATTACKER'; // Tampered physician
+        } else if (field === 'room_number') {
+          value = 'INVALID'; // Tampered room
+        } else if (field === 'patient_display_name') {
+          value = 'HACKED'; // Tampered name
+        } else if (field === 'ui_theme_preference') {
+          value = 'MALICIOUS'; // Tampered theme
         }
       } else if (this.behaviorMode === 'laundering') {
         // Honest for first 10 rounds on low-risk fields, then attack
