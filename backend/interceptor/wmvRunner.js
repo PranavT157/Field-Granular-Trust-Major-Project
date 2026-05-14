@@ -3,7 +3,7 @@
  * Each field runs independent WMV; winning value accepted only if weight > tau
  */
 
-class WMVRunner {
+export default class WMVRunner {
   constructor(trustEngine, schema) {
     this.trustEngine = trustEngine;
     this.schema = schema;
@@ -128,5 +128,3 @@ class WMVRunner {
     return decisions;
   }
 }
-
-module.exports = WMVRunner;

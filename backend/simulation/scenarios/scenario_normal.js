@@ -3,7 +3,7 @@
  * Expected: all fields accepted, all trust scores converge toward ~0.97
  */
 
-const { DeviceSimulator } = require('../deviceSimulator');
+import { DeviceSimulator } from '../deviceSimulator.js';
 
 async function runScenarioNormal(masterDb, trustEngine, wmvRunner, auditLogger, mergeAssembler) {
   console.log('\n========== SCENARIO: NORMAL (All Honest) ==========');
@@ -106,4 +106,4 @@ async function runScenarioNormal(masterDb, trustEngine, wmvRunner, auditLogger, 
   return { stats, finalTrust };
 }
 
-module.exports = { runScenarioNormal };
+export { runScenarioNormal };

@@ -2,7 +2,7 @@
  * Audit Logger - Structured audit records and counter updates
  */
 
-class AuditLogger {
+export default class AuditLogger {
   constructor() {
     this.auditLog = [];
     this.syncEventCounter = 0;
@@ -117,5 +117,3 @@ class AuditLogger {
     this.syncLatencies = [];
   }
 }
-
-module.exports = AuditLogger;

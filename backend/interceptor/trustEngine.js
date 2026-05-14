@@ -4,7 +4,7 @@
  * Implements getGlobalTrust, getFieldTrust, and updateCounters
  */
 
-class TrustEngine {
+export default class TrustEngine {
   constructor() {
     // In-memory trust database: { deviceId: { alpha_global, beta_global, fields: {...} } }
     this.trustDb = new Map();
@@ -127,5 +127,3 @@ class TrustEngine {
     this.trustDb.clear();
   }
 }
-
-module.exports = TrustEngine;

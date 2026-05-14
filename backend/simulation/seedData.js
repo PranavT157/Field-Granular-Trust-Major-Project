@@ -2,7 +2,7 @@
  * Seed Data - Initial patient records
  */
 
-const seedData = {
+export default {
   patient_001: {
     medication_dosage: 50,
     blood_pressure: '120/80',
@@ -24,5 +24,3 @@ const seedData = {
     ui_theme_preference: 'dark',
   },
 };
-
-module.exports = seedData;

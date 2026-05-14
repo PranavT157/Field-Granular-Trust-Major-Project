@@ -6,7 +6,7 @@
  * (field-specific evidence required, global rep not fully transferred)
  */
 
-const { DeviceSimulator } = require('../deviceSimulator');
+import { DeviceSimulator } from '../deviceSimulator.js';
 
 async function runScenarioLaundering(masterDb, trustEngine, wmvRunner, auditLogger, mergeAssembler) {
   console.log('\n========== SCENARIO: REPUTATION LAUNDERING ==========');
@@ -140,4 +140,4 @@ async function runScenarioLaundering(masterDb, trustEngine, wmvRunner, auditLogg
   return { stats, finalTrust };
 }
 
-module.exports = { runScenarioLaundering };
+export { runScenarioLaundering };

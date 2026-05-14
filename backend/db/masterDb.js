@@ -3,7 +3,7 @@
  * In this simplified version, we use in-memory storage
  */
 
-class MasterDb {
+export default class MasterDb {
   constructor() {
     // In-memory store: { patientId: { ...record, _id, _rev } }
     this.store = new Map();
@@ -73,5 +73,3 @@ class MasterDb {
     return Math.random().toString(36).substr(2, 9);
   }
 }
-
-module.exports = MasterDb;
