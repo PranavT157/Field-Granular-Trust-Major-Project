@@ -42,7 +42,7 @@ async function runScenarioAttack(masterDb, trustEngine, wmvRunner, auditLogger, 
   simulator.initialize(deviceConfigs);
 
   // Run 20 rounds
-  for (let round = 1; round <= 20; round++) {
+  for (let round = 1; round <= 100; round++) {
     const { updates } = simulator.runRound(round);
 
     // Group updates by field
@@ -98,6 +98,21 @@ async function runScenarioAttack(masterDb, trustEngine, wmvRunner, auditLogger, 
   console.log('\n--- Final Stats (Attack Scenario) ---');
   console.log(`Total Sync Events: ${stats.totalSyncEvents}`);
   console.log(`Rejection Rate: ${(stats.rejectionRate * 100).toFixed(2)}%`);
+  console.log(`Overall Accuracy: ${stats.overallAccuracyPercentage}`);
+  
+  console.log('\n--- Device Accuracy Metrics ---');
+  for (const [deviceId, metrics] of Object.entries(stats.deviceAccuracyMetrics)) {
+    console.log(`  ${deviceId}:`);
+    console.log(`    Correct: ${metrics.correctMeasurements}/${metrics.totalMeasurements}`);
+    console.log(`    Accuracy: ${metrics.accuracyPercentage}`);
+  }
+  
+  console.log('\n--- Field Accuracy Metrics ---');
+  for (const [fieldPath, metrics] of Object.entries(stats.fieldAccuracyMetrics)) {
+    console.log(`  ${fieldPath}:`);
+    console.log(`    Correct: ${metrics.correctMeasurements}/${metrics.totalMeasurements}`);
+    console.log(`    Accuracy: ${metrics.accuracyPercentage}`);
+  }
   console.log(`Mean Latency: ${stats.meanLatencyMs.toFixed(2)}ms`);
 
   const finalTrust = trustEngine.getSnapshot();
