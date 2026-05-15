@@ -42,7 +42,7 @@ async function runScenarioAttack(masterDb, trustEngine, wmvRunner, auditLogger, 
   simulator.initialize(deviceConfigs);
 
   // Run 20 rounds
-  for (let round = 1; round <= 20; round++) {
+  for (let round = 1; round <= 100; round++) {
     const { updates } = simulator.runRound(round);
 
     // Group updates by field
