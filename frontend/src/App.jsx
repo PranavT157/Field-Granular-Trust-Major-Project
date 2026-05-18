@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🏥 MediSync Shield</h1>
+        <h1> Field-Granular Trust System</h1>
         <p>Field-Granular Trust-Aware Offline-First Synchronization System</p>
       </header>
 
